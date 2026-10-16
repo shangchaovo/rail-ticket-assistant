@@ -68,7 +68,7 @@ npm run test:bridge
 npm run deploy:pages
 ```
 
-脚本读取本地 Pages 配置并显式发布桥接目录。公开路径送到 `PUBLIC_BACKEND`，私人登录、下载及任务路径送到 `RAIL_BACKEND`。缺少某绑定只返回不可用，不回退到未鉴权静态文件。
+脚本读取本地 Pages 配置，在被忽略的临时工作目录生成约定名称的 `wrangler.json` 后发布桥接目录，并在结束后清理。生产及预览配置完整保留；不把含 `env` 的原配置当作生成配置重定向。公开路径送到 `PUBLIC_BACKEND`，私人登录、下载及任务路径送到 `RAIL_BACKEND`。缺少某绑定只返回不可用，不回退到未鉴权静态文件。
 
 ## 配套扩展
 

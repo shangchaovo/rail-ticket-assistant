@@ -4,6 +4,8 @@
 
 [在线体验](https://rail-same-train-pages.pages.dev/) · [部署说明](docs/deployment.md) · [隐私说明](PRIVACY.md) · [安全说明](SECURITY.md)
 
+2026-10-17 已完成线上安全更新，公开查询和私人工作台均已验证。详情见[发布审查](docs/publication-audit.md)。
+
 本项目是独立的查询工具，与 12306 无隶属关系。界面采用常见铁路查询布局；购票、候补与验证码由使用者本人在官网完成。
 
 ## 功能

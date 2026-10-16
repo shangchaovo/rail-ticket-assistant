@@ -1,9 +1,34 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFile} from 'node:fs/promises';
+import {mkdirSync,mkdtempSync,rmSync,writeFileSync} from 'node:fs';
+import {tmpdir} from 'node:os';
+import {join,resolve} from 'node:path';
+import {unstable_readConfig} from 'wrangler';
+import {preparePagesDeployment} from '../scripts/prepare-pages-deployment.mjs';
 import bridge from './dist/_worker.js';
 
 const base = 'https://rail-same-train-pages.pages.dev';
+
+test('Pages local config parses with real Wrangler and preserves preview isolation under a parent redirect',async()=>{
+ const fixture=mkdtempSync(join(tmpdir(),'rail-pages-config-')),originalCwd=process.cwd();
+ try{
+  const pages=join(fixture,'pages');mkdirSync(pages);
+  const config=JSON.parse(await readFile(new URL('./wrangler.json',import.meta.url),'utf8'));
+  const original=JSON.stringify(config);
+  mkdirSync(join(fixture,'.wrangler/deploy'),{recursive:true});
+  writeFileSync(join(fixture,'private-generated.json'),JSON.stringify({name:'must-not-inherit',env:{preview:{}}}));
+  writeFileSync(join(fixture,'.wrangler/deploy/config.json'),JSON.stringify({configPath:'../../private-generated.json'}));
+  const staging=preparePagesDeployment(config,pages);process.chdir(staging.directory);
+  const production=unstable_readConfig({},{useRedirectIfAvailable:true});
+  assert.equal(production.name,config.name);assert.equal(production.configPath,production.userConfigPath);
+  assert.deepEqual(production.services.map(s=>s.binding),['RAIL_BACKEND','PUBLIC_BACKEND']);
+  const preview=unstable_readConfig({env:'preview'},{useRedirectIfAvailable:true});
+  assert.deepEqual(preview.services.map(s=>s.binding),['PUBLIC_BACKEND']);
+  assert.equal(resolve(staging.directory,staging.output),resolve(pages,'dist'));
+  assert.equal(JSON.stringify(config),original);
+ }finally{process.chdir(originalCwd);rmSync(fixture,{recursive:true,force:true});}
+});
 
 test('missing or malformed service binding fails closed with no static fallback', async () => {
   let assetCalls = 0;
