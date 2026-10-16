@@ -1,0 +1,35 @@
+import {createRequire} from 'node:module';
+import {dirname,resolve,join} from 'node:path';
+import {fileURLToPath} from 'node:url';
+import {mkdir,copyFile,readFile,writeFile,rm,cp} from 'node:fs/promises';
+import {spawnSync} from 'node:child_process';
+const require=createRequire(import.meta.url),root=resolve(dirname(fileURLToPath(import.meta.url)),'..');
+const esbuild=require(require.resolve('esbuild',{paths:[dirname(require.resolve('wrangler/package.json'))]}));
+const sharp=require(require.resolve('sharp',{paths:[dirname(require.resolve('wrangler/package.json'))]}));
+export async function buildBrowserExtension(){
+ const source=join(root,'browser-extension'),out=join(root,'dist/browser-extension'),manifest=JSON.parse(await readFile(join(source,'manifest.json'),'utf8'));
+ const identity=JSON.parse(await readFile(join(source,'identity.json'),'utf8'));
+ await rm(out,{recursive:true,force:true});await mkdir(join(out,'assets'),{recursive:true});await mkdir(join(out,'icons'),{recursive:true});
+ await copyFile(join(source,'manifest.json'),join(out,'manifest.json'));await copyFile(join(source,'background.js'),join(out,'background.js'));
+ for(const file of ['app.css','assistant.css','rail-theme.css'])await copyFile(join(root,'cloud/public/static',file),join(out,'assets',file));
+ await copyFile(join(source,'extension.css'),join(out,'assets/extension.css'));
+ const svg=await readFile(join(root,'public/favicon.svg'));
+ await Promise.all([16,32,48,128].map(size=>sharp(svg).resize(size,size).png().toFile(join(out,`icons/${size}.png`))));
+ let html=await readFile(join(root,'cloud/public/static/index.html'),'utf8');
+ html=html.replaceAll('/public-assets/','assets/').replace('<title>同车余票 · 轻量查询</title>','<title>同车余票 · 浏览器扩展</title>');
+ html=html.replace('<script type="module"','<link rel="stylesheet" href="assets/extension.css"><script type="module"');
+ html=html.replace(/<a\b([^>]*?)href="(\/|\/workspace)"([^>]*)>/g,(_all,before,path,after)=>`<a${before}href="${identity.serviceOrigin}${path}"${after} target="_blank" rel="noopener noreferrer">`);
+ html=html.replace(/<a class="extension-download"[^>]*>.*?<\/a>/g,'');
+ html=html.replace('公开查询 · 无需安装','浏览器扩展 · 云端查询').replace('云端按需查询，Mac 关机也能使用','扩展直接连接云端，无需另开本地程序');
+ html=html.replace('<footer>','<footer><details class="extension-details"><summary>扩展使用与权限</summary><p>点击浏览器工具栏图标打开侧边栏，在这里填写条件或问 AI。方案中的官网链接会打开新标签页。</p><p>扩展只连接本站云端服务，不读取当前网页、浏览记录或 12306 Cookie。公开查询额度与网页共用；对话、票价与库存不长期保存。</p><p>需要私人会话或盯票时，打开上方私人工作台。关闭侧边栏会结束当前页面，重新打开需重新查询。</p></details>');
+ await writeFile(join(out,'panel.html'),html);
+ await esbuild.build({entryPoints:[join(root,'cloud/public/client.ts')],outfile:join(out,'assets/app.js'),bundle:true,minify:true,format:'esm',target:'chrome116',define:{RAIL_BROWSER_EXTENSION:'true'}});
+ await copyFile(join(source,'安装说明.md'),join(out,'安装说明.md'));
+ const deliverable=join(root,'outputs/rail-browser-extension');await rm(deliverable,{recursive:true,force:true});await mkdir(dirname(deliverable),{recursive:true});await cp(out,deliverable,{recursive:true});
+ const zip=join(root,`outputs/同车余票浏览器扩展-v${manifest.version}.zip`);
+ const program="from pathlib import Path\nfrom zipfile import ZipFile,ZIP_DEFLATED\nimport sys\nfolder=Path(sys.argv[1]); dest=Path(sys.argv[2])\nwith ZipFile(dest,'w',ZIP_DEFLATED) as z:\n for p in sorted(folder.rglob('*')):\n  if p.is_file(): z.write(p,Path('rail-browser-extension')/p.relative_to(folder))\n";
+ const result=spawnSync('python3',['-c',program,out,zip],{encoding:'utf8'});if(result.status!==0)throw Error(result.stderr||'扩展压缩包生成失败');
+ console.log(`Browser extension ${manifest.version} built: outputs/rail-browser-extension`);
+ return {directory:out,zip,manifest};
+}
+if(resolve(process.argv[1]??'')===fileURLToPath(import.meta.url))await buildBrowserExtension();

@@ -1,0 +1,36 @@
+{
+  "name": "rail-assistant-mac-helper",
+  "version": "1.3.0",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "sync": "node scripts/sync-shared.mjs",
+    "setup": "tsx src/cli.ts setup",
+    "start": "npm run sync && tsx src/cli.ts start",
+    "diagnose": "tsx src/cli.ts diagnose",
+    "probe": "tsx src/cli.ts probe",
+    "resume": "tsx src/cli.ts resume",
+    "service:install": "npm run sync && tsx src/cli.ts service-install",
+    "service:start": "tsx src/cli.ts service-start",
+    "service:stop": "tsx src/cli.ts service-stop",
+    "service:status": "tsx src/cli.ts service-status",
+    "service:uninstall": "tsx src/cli.ts service-uninstall",
+    "check": "npm run sync && tsc --noEmit",
+    "test": "tsx --test tests/*.test.ts",
+    "browser:install": "playwright install chromium"
+  },
+  "dependencies": {
+    "playwright": "1.58.2",
+    "tsx": "4.21.0"
+  },
+  "devDependencies": {
+    "@types/node": "22.19.19",
+    "typescript": "5.9.3"
+  },
+  "overrides": {
+    "esbuild": "0.28.1"
+  }
+}

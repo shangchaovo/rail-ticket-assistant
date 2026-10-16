@@ -1,0 +1,55 @@
+/* Shared visual language: compact railway search controls and a quiet AI panel. */
+.public-rail{background:#fff;color:#333;font-family:Arial,"Microsoft YaHei","PingFang SC",sans-serif}
+.public-rail header{border-top:3px solid #3b99fc;border-bottom:0;padding:14px max(24px,calc((100vw - 1200px)/2));min-height:83px}
+.public-rail header .brand{display:flex;align-items:center;gap:11px;font-size:25px;font-weight:600;line-height:1.4;color:#333}
+.public-rail .brand small{display:block;font-weight:400;font-size:12px;letter-spacing:1px;color:#888}
+.public-brand-mark{display:grid;place-items:center;width:46px;height:46px;color:#3b99fc;border:2px solid #3b99fc;border-radius:50%;font-size:30px}
+.public-rail header>span{color:#7b8792}.public-rail .admin{font-size:13px;color:#2876bd}
+.public-nav{background:#3b99fc;color:#fff}.public-nav>div{max-width:1200px;margin:auto;display:grid;grid-template-columns:repeat(5,minmax(0,1fr))}
+.public-nav a,.public-nav button{display:flex;align-items:center;justify-content:center;min-height:42px;color:#fff;background:none;border:0;padding:8px;font:inherit;white-space:nowrap}
+.public-nav .active,.public-nav a:hover,.public-nav button:hover{background:#2676d5}
+.public-rail main{max-width:1248px;padding:22px 24px 85px}.public-rail .heading{margin-bottom:18px}
+.public-rail .eyebrow{font-size:12px;letter-spacing:0;color:#777}.public-rail .eyebrow span{margin:0 7px;color:#aaa}
+.public-rail h1{font-size:22px;font-weight:600;margin:5px 0}.public-rail .heading>p:last-child{font-size:13px;color:#888}
+.public-rail .panel{padding:0 20px 16px;border:1px solid #a7c5e1;border-top:3px solid #3b99fc;border-radius:3px;background:#f6faff;box-shadow:none}
+.public-panel-title{display:flex;align-items:center;justify-content:space-between;gap:12px;border-bottom:1px solid #dce9f5;padding:12px 0;margin-bottom:16px;color:#2876bd}
+.public-panel-title h2{font-size:15px;font-weight:600}.public-panel-title>span{font-size:12px;color:#52799b}
+.public-rail label{font-size:13px;color:#444}.public-rail input:not([type=checkbox]),.public-rail select{height:36px;border-radius:2px;border-color:#bccfe2;padding:6px 10px;color:#333}
+.public-rail .fields{gap:15px}.public-rail .swap{height:36px}.public-rail .preferences{padding:18px 0;gap:18px}
+.public-rail .preferences select{height:31px}.public-rail input[type=checkbox]{accent-color:#3b99fc}
+.public-rail .advanced{border-color:#cbddec}.public-rail .advanced-grid{padding-top:14px;gap:14px}
+.public-rail .submit-row{margin-top:18px}.public-rail .primary{background:#ff8201;border-radius:3px;font-weight:500;min-width:180px;padding:9px 25px}
+.public-rail .primary:hover{background:#ee7600}.public-rail .secondary{border-radius:3px}
+.public-rail .notice,.public-rail .tooltip,.public-rail .other,.public-rail .issues,.public-rail .empty{border-radius:3px}
+.public-rail .empty{border-style:solid;background:#fcfdff;padding:40px 16px}.public-rail .results-heading{margin-top:24px}.public-rail h2{font-size:18px}
+.public-rail .tools{border:1px solid #c6daed;background:#f6faff;padding:8px 10px;border-radius:2px;justify-content:space-between}
+.public-rail .segments{padding:0;background:transparent;gap:0}.public-rail .segments button{border-radius:0;padding:5px 12px;color:#567b9d}
+.public-rail .segments .active{box-shadow:none;color:#2377c6;background:#e3f0ff;font-weight:600}
+.public-rail .plan{border-color:#c8dbea;border-radius:2px;padding:0;margin:12px 0;overflow:hidden}
+.public-rail .plan-head{background:#f0f7ff;border-bottom:1px solid #dce8f3;padding:9px 16px}.public-rail .train{font-size:18px;color:#2876bd}
+.public-rail .plan-main{padding:0 16px;margin:14px 0}.public-rail .plan-actions{padding:0 16px 13px}.public-rail .plan-actions>a,.public-rail .plan-actions>button{border-radius:3px}
+.public-rail .plan-actions .buy{background:#ff8201;color:#fff;border-color:#ff8201}.public-rail .total{color:#ff8201}
+.public-rail .ticket-details{margin:0 16px 12px}.public-rail .risk{margin:0 16px 12px}.public-rail .help{margin-left:-12px}
+.workspace-label{font-size:12px;color:#2876bd}.private-assistant [hidden]{display:none!important}
+.assistant-toggle{display:flex;align-items:center;gap:7px;border-radius:4px;background:#2876bd;border-color:#2876bd;padding:11px 17px;font-size:13px}
+.assistant-panel{border-radius:4px;border-color:#9fbedd;background:#f5f9ff}
+.assistant-header{background:#3b99fc;border-color:#3b99fc;padding:13px 16px}.assistant-header strong,.assistant-header small,.assistant-close{color:#fff}.assistant-header small{opacity:.9}
+.assistant-mode{font-size:10px;margin-left:5px;font-weight:400;border-left:1px solid #ffffff70;padding-left:8px}
+.assistant-bubble,.assistant-citation{border-radius:3px}.assistant-bubble{font-size:13px;color:#4a637b}
+.assistant-examples button{border-radius:3px}.assistant-form textarea{border-radius:3px}
+.assistant-form .primary,.assistant-form .secondary{display:inline-flex;align-items:center;gap:6px;justify-content:center;border-radius:3px;border:1px solid #cbddec;padding:6px 13px;font:inherit;font-size:12px;min-width:0}
+.assistant-form .primary{background:#2876bd;color:#fff;border-color:#2876bd}.assistant-form .secondary{background:#f1f6fb;color:#4777a5}
+.assistant-form label.sr-only{display:block}.private-assistant .assistant-toggle{z-index:36}.private-assistant .assistant-panel{z-index:37}
+.plan-card:target{outline:2px solid #3b99fc;outline-offset:2px}
+@media(max-width:760px){
+ .public-rail header{padding:12px 16px;min-height:75px}.public-rail header .brand{font-size:21px;gap:9px}.public-brand-mark{width:39px;height:39px;font-size:25px}.public-rail .brand small{font-size:10px}
+ .public-nav a,.public-nav button{font-size:12px;padding:8px 4px;min-height:38px}.public-nav>div{grid-template-columns:repeat(4,minmax(0,1fr))}.public-nav a:last-child{display:none}
+ .public-rail main{padding:17px 14px 85px}.public-rail h1{font-size:21px}.public-rail .heading>p:last-child{font-size:12px}
+ .public-rail .panel{padding:0 14px 15px}.public-panel-title{padding:10px 0;margin-bottom:13px}.public-panel-title h2{font-size:14px}.public-panel-title>span{font-size:11px}
+ .public-rail .fields{gap:12px 6px}.public-rail input:not([type=checkbox]),.public-rail select{height:38px}.public-rail .preferences{gap:13px;padding:16px 0}.public-rail .help{margin-left:-7px}
+ .public-rail .submit-row .primary{min-width:0}.public-rail .submit-row>span{font-size:11px}.public-rail .tools{gap:7px;padding:7px}.public-rail .segments button{padding:5px 8px}
+ .public-rail .plan-head{padding:9px 12px}.public-rail .plan-main{padding:0 12px}.public-rail .plan-actions{padding:0 12px 12px}.public-rail .ticket-details{margin-right:12px;margin-left:12px}
+ .assistant-header{padding:12px 14px}.assistant-toggle{padding:10px 14px}.assistant-header strong{font-size:15px}.assistant-mode{font-size:9px;margin-left:3px;padding-left:6px}
+ .header-tools .workspace-label{display:none}
+}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}

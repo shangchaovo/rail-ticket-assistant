@@ -1,0 +1,15 @@
+import {createRequire} from 'node:module';
+import {dirname,resolve} from 'node:path';
+import {fileURLToPath} from 'node:url';
+import {mkdir,copyFile} from 'node:fs/promises';
+import {buildBrowserExtension} from './build-browser-extension.mjs';
+const require=createRequire(import.meta.url),esbuild=require(require.resolve('esbuild',{paths:[dirname(require.resolve('wrangler/package.json'))]}));
+const root=resolve(dirname(fileURLToPath(import.meta.url)),'..'),out=resolve(root,'dist/public');
+await mkdir(resolve(out,'public-assets'),{recursive:true});
+const extension=await buildBrowserExtension();
+await copyFile(extension.zip,resolve(out,'public-assets/rail-browser-extension.zip'));
+await Promise.all([copyFile(resolve(root,'cloud/public/static/index.html'),resolve(out,'index.html')),copyFile(resolve(root,'cloud/public/static/app.css'),resolve(out,'public-assets/app.css'))]);
+await copyFile(resolve(root,'cloud/public/static/assistant.css'),resolve(out,'public-assets/assistant.css'));
+await copyFile(resolve(root,'cloud/public/static/rail-theme.css'),resolve(out,'public-assets/rail-theme.css'));
+await esbuild.build({entryPoints:[resolve(root,'cloud/public/client.ts')],outfile:resolve(out,'public-assets/app.js'),bundle:true,minify:true,format:'esm',target:'es2022'});
+console.log('Public query assets built in dist/public');

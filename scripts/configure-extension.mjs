@@ -1,0 +1,11 @@
+import {readFileSync,writeFileSync} from 'node:fs';
+const value=process.argv[2];
+if(!value)throw new Error('Usage: node scripts/configure-extension.mjs https://your-query-service.example');
+const url=new URL(value);
+if(url.protocol!=='https:'||url.username||url.password||url.pathname!=='/'||url.search||url.hash)throw new Error('Use an HTTPS origin without credentials, path, query or fragment');
+const file=name=>new URL('../browser-extension/'+name,import.meta.url);
+const identity=JSON.parse(readFileSync(file('identity.json'),'utf8'));const manifest=JSON.parse(readFileSync(file('manifest.json'),'utf8'));
+const old=identity.serviceOrigin;identity.serviceOrigin=url.origin;
+manifest.host_permissions=[url.origin+'/*'];manifest.content_security_policy.extension_pages=manifest.content_security_policy.extension_pages.replace('connect-src '+old,'connect-src '+url.origin);
+writeFileSync(file('identity.json'),JSON.stringify(identity,null,2)+'\n');writeFileSync(file('manifest.json'),JSON.stringify(manifest,null,2)+'\n');
+console.log('Extension service origin and connection permissions updated; rebuild the service and extension together.');

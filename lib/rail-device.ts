@@ -1,0 +1,4 @@
+export const RUNNER_LEASE_MS=120_000;
+export const RUNNER_CLAIM_SQL=`UPDATE devices SET runner_id=?,runner_until=?,last_seen=?,message='电脑查询助手在线' WHERE id=? AND revoked_at IS NULL AND (runner_id=? OR runner_until IS NULL OR runner_until<?) AND NOT EXISTS (SELECT 1 FROM released_runners WHERE device_id=devices.id AND released_runners.runner_id=?) RETURNING *`;
+export const RUNNER_RENEW_SQL='UPDATE devices SET runner_until=?,last_seen=? WHERE id=? AND runner_id=? AND revoked_at IS NULL AND runner_until>? RETURNING *';
+export const RUNNER_RELEASE_JOBS_SQL=`UPDATE jobs SET status='unavailable',message='Mac 助手已停止，本轮未完成；已采集结果仅供参考',lease_token=NULL,lease_until=NULL,updated_at=? WHERE device_id=? AND status IN ('running','waiting_user') AND EXISTS (SELECT 1 FROM devices WHERE id=jobs.device_id AND revoked_at IS NULL AND runner_id=?)`;

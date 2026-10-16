@@ -1,0 +1,79 @@
+.help-tip-trigger {
+  display: inline-flex;
+  flex: 0 0 auto;
+  align-items: center;
+  justify-content: center;
+  vertical-align: middle;
+  width: 24px;
+  height: 24px;
+  margin: 0;
+  padding: 3px;
+  border: 0;
+  border-radius: 50%;
+  background: transparent;
+  color: #647a8c;
+  cursor: help;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.help-tip-trigger > span {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 16px;
+  height: 16px;
+  border: 1px solid currentColor;
+  border-radius: 50%;
+  font-size: 11px;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.help-tip-trigger:hover,
+.help-tip-trigger[data-popup-open] {
+  color: #245a7d;
+  background: #e9f2f8;
+}
+
+.help-tip-trigger:focus-visible {
+  outline: 2px solid #367fae;
+  outline-offset: 2px;
+}
+
+.help-tip-positioner {
+  z-index: 1600;
+}
+
+.help-tip-popup {
+  width: max-content;
+  max-width: min(288px, calc(100vw - 24px));
+  max-height: min(240px, calc(100dvh - 24px));
+  overflow: auto;
+  padding: 10px 12px;
+  border: 1px solid #d7e3ec;
+  border-radius: 10px;
+  background: #fff;
+  color: #304c62;
+  box-shadow: 0 5px 22px #183b5a24;
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 1.65;
+  overflow-wrap: anywhere;
+  text-align: left;
+  user-select: text;
+}
+
+@media (pointer: coarse) {
+  .help-tip-trigger {
+    width: 30px;
+    height: 30px;
+    padding: 6px;
+    cursor: pointer;
+  }
+}
+
+@media (forced-colors: active) {
+  .help-tip-trigger { color: ButtonText; }
+  .help-tip-popup { border-color: CanvasText; background: Canvas; color: CanvasText; }
+}

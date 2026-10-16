@@ -1,0 +1,30 @@
+{
+  "$schema": "./node_modules/wrangler/config-schema.json",
+  "name": "rail-query-public",
+  "main": "./cloud/public/worker.ts",
+  "compatibility_date": "2026-05-15",
+  "workers_dev": true,
+  "preview_urls": false,
+  "observability": {
+    "enabled": false
+  },
+  "vars": {
+    "PUBLIC_ENABLED": "true",
+    "AI_ASSISTANT_ENABLED": "true"
+  },
+  "ai": {
+    "binding": "AI"
+  },
+  "assets": {
+    "directory": "./dist/public",
+    "binding": "ASSETS",
+    "run_worker_first": true
+  },
+  "d1_databases": [
+    {
+      "binding": "PUBLIC_DB",
+      "database_name": "rail-query-public",
+      "database_id": "00000000-0000-4000-8000-000000000000"
+    }
+  ]
+}

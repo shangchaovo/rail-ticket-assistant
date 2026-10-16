@@ -1,0 +1,25 @@
+{
+  "$schema": "../node_modules/wrangler/config-schema.json",
+  "name": "rail-same-train-pages",
+  "pages_build_output_dir": "./dist",
+  "compatibility_date": "2026-05-15",
+  "compatibility_flags": [
+    "nodejs_compat"
+  ],
+  "send_metrics": false,
+  "vars": {"PUBLIC_FRONTEND":"true"},
+  "services": [
+    {
+      "binding": "RAIL_BACKEND",
+      "service": "rail-same-train",
+      "environment": "production"
+    },
+    {"binding":"PUBLIC_BACKEND","service":"rail-query-public","environment":"production"}
+  ],
+  "env": {
+    "preview": {
+      "vars":{"PUBLIC_FRONTEND":"true"},
+      "services": [{"binding":"PUBLIC_BACKEND","service":"rail-query-public","environment":"production"}]
+    }
+  }
+}

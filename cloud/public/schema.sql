@@ -1,0 +1,3 @@
+CREATE TABLE IF NOT EXISTS public_limits (scope TEXT NOT NULL, day TEXT NOT NULL, used INTEGER NOT NULL DEFAULT 0, last_at INTEGER NOT NULL, PRIMARY KEY(scope, day));
+CREATE TABLE IF NOT EXISTS public_leases (id TEXT PRIMARY KEY, visitor TEXT NOT NULL UNIQUE, expires_at INTEGER NOT NULL);
+CREATE INDEX IF NOT EXISTS public_limits_day ON public_limits(day);
