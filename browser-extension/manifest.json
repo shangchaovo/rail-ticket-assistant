@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "同车余票 · AI 查票助手",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "在浏览器侧边栏查询实时铁路余票，比较直达、同车分段与中转，使用 AI 分析本轮结果。",
   "minimum_chrome_version": "116",
   "key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAk618bkQ3YtclrYF/XKREHroc3oLF3WEGAidM3JOCWrE8uYq5EbMcTMs87x/5K4MZ4BkLMBs31qsGK/epG0dIJC+QNgkRskftbeT1ZBingscm3sPnGsGjxjz7VSQ79pAdWqXV7lrJtL8gAsNVBM/wxA6RO3ERrjTs+S1z32wPuHVEEG0ANN37ha/lTi9J6SkZNb+AaMK/VrFtOWAhVnBKnh4lj+g8x2VpSmnX7wzi7RMN4uN9NkX4f+RAm86U+4xSsJSu257ueMd8oOwKxqK+m5LvW8QLQN07FodBErn1Q/TMVdcegiDGiQ6TJzOIOj6TfqsLPjkeXx53MdgkytXDyQIDAQAB",
